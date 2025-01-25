@@ -1,14 +1,31 @@
 {
   "name": "elephbeat",
-  "module": "index.ts",
-  "type": "module",
-  "devDependencies": {
-    "@types/bun": "latest"
+  "version": "1.0.0",
+  "description": "<div align=\"center\">   <img width=\"600\" src=\"https://github.com/user-attachments/assets/8deca7f2-806e-489c-a7de-2085f5e1c98d\" alt=\"elephBeat Logo\">",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "npm run build && node dist/index.js"
   },
-  "peerDependencies": {
-    "typescript": "^5.0.0"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Gaute945/elephBeat.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/Gaute945/elephBeat/issues"
+  },
+  "homepage": "https://github.com/Gaute945/elephBeat#readme",
+  "devDependencies": {
+    "@types/node": "^22.10.10",
+    "typescript": "^5.7.3"
   },
   "dependencies": {
+    "@fastify/view": "^10.0.2",
+    "ejs": "^3.1.10",
     "fastify": "^5.2.1"
   }
 }
