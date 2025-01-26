@@ -1,4 +1,4 @@
-import Fastify from 'fastify'
+import Fastify, { FastifyRequest, FastifyReply } from 'fastify';
 import fastifyView from '@fastify/view';
 import ejs from 'ejs';
 import fastifyFormbody from '@fastify/formbody';
@@ -9,20 +9,19 @@ const fastify = Fastify({
 
 fastify.register(fastifyFormbody);
 
-// Register @fastify/view plugin and select EJS engine for templates
 fastify.register(fastifyView, {
   engine: {
     ejs: ejs,
   },
 });
 
-fastify.get('/', async function handler(request, reply) {
+fastify.get('/', async function handler(request: FastifyRequest, reply: FastifyReply) {
   return reply.view('./src/public/home.ejs', {
     title: 'Homepage'
   });
 });
 
-fastify.get('/about', async function handler(request, reply) {
+fastify.get('/about', async function handler(request: FastifyRequest, reply: FastifyReply) {
   return reply.view('./src/public/about.ejs', {
     title: 'About',
     description: 'Description of about page',
@@ -30,14 +29,13 @@ fastify.get('/about', async function handler(request, reply) {
   });
 });
 
-fastify.post('/about', (request, reply) => {
+fastify.post('/about', (request: FastifyRequest, reply: FastifyReply) => {
   reply.redirect('/about');
 });
 
-// Run web server
 try {
-  await fastify.listen({ port: 3000 })
+  await fastify.listen({ port: 3000 });
 } catch (err) {
-  fastify.log.error(err)
-  process.exit(1)
+  fastify.log.error(err);
+  process.exit(1);
 }
