@@ -2,6 +2,7 @@ import Fastify, { FastifyRequest, FastifyReply } from 'fastify';
 import fastifyView from '@fastify/view';
 import ejs from 'ejs';
 import fastifyFormbody from '@fastify/formbody';
+import * as hosts from './collector.js';
 
 const fastify = Fastify({
   logger: true
@@ -24,8 +25,8 @@ fastify.get('/', async function handler(request: FastifyRequest, reply: FastifyR
 fastify.get('/about', async function handler(request: FastifyRequest, reply: FastifyReply) {
   return reply.view('./src/public/about.ejs', {
     title: 'About',
-    description: 'Description of about page',
-    testing: 'Did it work? POG'
+    description: hosts.name1,
+    testing: hosts.value1
   });
 });
 

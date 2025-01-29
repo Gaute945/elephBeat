@@ -8,7 +8,7 @@
     "esModuleInterop": true,
     "strict": true,
     "declaration": false,
-    "removeComments": true
+    "removeComments": true,
   },
   "include": [
     "./src/**/*.ts"
