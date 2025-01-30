@@ -2,7 +2,7 @@ import Fastify, { FastifyRequest, FastifyReply } from 'fastify';
 import fastifyView from '@fastify/view';
 import ejs from 'ejs';
 import fastifyFormbody from '@fastify/formbody';
-import * as hosts from './collector.js';
+import { metrics } from './collector.js';
 
 const fastify = Fastify({
   logger: true
@@ -25,8 +25,9 @@ fastify.get('/', async function handler(request: FastifyRequest, reply: FastifyR
 fastify.get('/about', async function handler(request: FastifyRequest, reply: FastifyReply) {
   return reply.view('./src/public/about.ejs', {
     title: 'About',
-    description: hosts.name1,
-    testing: hosts.value1
+    // need to make better key system
+    description: metrics.get("lxc/103"),
+    testing: metrics.get("lxc/115")
   });
 });
 
