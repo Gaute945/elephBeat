@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>
+    <%= title %>
+  </title>
+</head>
+
+<body>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Cpu</th>
+        <th>Ram</th>
+        <th>Storage</th>
+        <th>Status</th>
+        <th>Controll</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% let groupedMetrics={}; Object.entries(metrics).forEach(([key, value])=> {
+        const [name, metricType] = key.split('|');
+        if (!groupedMetrics[name]) {
+        groupedMetrics[name] = { name, cpu: '', ram: '', bootdisk: '' };
+        }
+
+        if (metricType === 'cpu') {
+        groupedMetrics[name].cpu = value;
+        }
+        else if (metricType === 'ram') {
+        groupedMetrics[name].ram = value;
+        }
+        else if (metricType === 'bootdisk') {
+        groupedMetrics[name].bootdisk = value;
+        }
+        });
+        %>
+        <% Object.values(groupedMetrics).forEach(({ name, cpu, ram, bootdisk })=> { %>
+          <tr>
+            <td>
+              <%= name %>
+            </td>
+            <td>
+              <%= cpu %>%
+            </td>
+            <td>
+              <%= ram %>%
+            </td>
+            <td>
+              <%= bootdisk %>%
+            </td>
+            <td>
+              Unknown
+            </td>
+            <td>
+              <button type="submit">Start</button>
+              <button type="submit">Stop</button>
+              <button type="submit">Restart</button>
+            </td>
+          </tr>
+          <% }); %>
+    </tbody>
+  </table>
+</body>
+
+</html>

@@ -2,6 +2,7 @@ import Fastify, { FastifyRequest, FastifyReply } from 'fastify';
 import fastifyView from '@fastify/view';
 import ejs from 'ejs';
 import fastifyFormbody from '@fastify/formbody';
+import { metrics } from './collector.js';
 
 const fastify = Fastify({
   logger: true
@@ -21,16 +22,16 @@ fastify.get('/', async function handler(request: FastifyRequest, reply: FastifyR
   });
 });
 
-fastify.get('/about', async function handler(request: FastifyRequest, reply: FastifyReply) {
-  return reply.view('./src/public/about.ejs', {
-    title: 'About',
-    description: 'Description of about page',
-    testing: 'Did it work? POG'
+fastify.get('/proxmox', async function handler(request: FastifyRequest, reply: FastifyReply) {
+  const cpu = [...metrics].map(([key, value]) => `${key}: ${value}`).join('\n');
+  return reply.view('./src/public/proxmox.ejs', {
+    title: 'Proxmox',
+    metrics: Object.fromEntries(metrics)
   });
 });
 
-fastify.post('/about', (request: FastifyRequest, reply: FastifyReply) => {
-  reply.redirect('/about');
+fastify.post('/proxmox', (request: FastifyRequest, reply: FastifyReply) => {
+  reply.redirect('/proxmox');
 });
 
 try {
