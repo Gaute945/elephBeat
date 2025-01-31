@@ -22,17 +22,16 @@ fastify.get('/', async function handler(request: FastifyRequest, reply: FastifyR
   });
 });
 
-fastify.get('/about', async function handler(request: FastifyRequest, reply: FastifyReply) {
-  return reply.view('./src/public/about.ejs', {
-    title: 'About',
-    // need to make better key system
-    description: metrics.get("lxc/103"),
-    testing: metrics.get("lxc/115")
+fastify.get('/proxmox', async function handler(request: FastifyRequest, reply: FastifyReply) {
+  const cpu = [...metrics].map(([key, value]) => `${key}: ${value}`).join('\n');
+  return reply.view('./src/public/proxmox.ejs', {
+    title: 'Proxmox',
+    metrics: Object.fromEntries(metrics)
   });
 });
 
-fastify.post('/about', (request: FastifyRequest, reply: FastifyReply) => {
-  reply.redirect('/about');
+fastify.post('/proxmox', (request: FastifyRequest, reply: FastifyReply) => {
+  reply.redirect('/proxmox');
 });
 
 try {
