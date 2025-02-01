@@ -25,8 +25,7 @@
       <% let groupedMetrics={}; Object.entries(metrics).forEach(([key, value])=> {
         const [name, metricType] = key.split('|');
         if (!groupedMetrics[name]) {
-        groupedMetrics[name] = { name, cpu: '', ram: '', bootdisk: '' };
-        }
+        groupedMetrics[name] = { name, cpu: '', ram: '', bootdisk: '', status: '' }};
 
         if (metricType === 'cpu') {
         groupedMetrics[name].cpu = value;
@@ -37,9 +36,12 @@
         else if (metricType === 'bootdisk') {
         groupedMetrics[name].bootdisk = value;
         }
+        else if (metricType === 'status') {
+        groupedMetrics[name].status = value;
+        }
         });
         %>
-        <% Object.values(groupedMetrics).forEach(({ name, cpu, ram, bootdisk })=> { %>
+        <% Object.values(groupedMetrics).forEach(({ name, cpu, ram, bootdisk, status })=> { %>
           <tr>
             <td>
               <%= name %>
@@ -54,7 +56,7 @@
               <%= bootdisk %>%
             </td>
             <td>
-              Unknown
+              <%= status %>
             </td>
             <td>
               <button type="submit">Start</button>
