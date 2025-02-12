@@ -23,7 +23,6 @@ fastify.get('/', async function handler(request: FastifyRequest, reply: FastifyR
 });
 
 fastify.get('/proxmox', async function handler(request: FastifyRequest, reply: FastifyReply) {
-  const cpu = [...metrics].map(([key, value]) => `${key}: ${value}`).join('\n');
   return reply.view('./src/public/proxmox.ejs', {
     title: 'Proxmox',
     metrics: Object.fromEntries(metrics)
