@@ -24,8 +24,17 @@ bootdisk usage per vm/ct % min/max MB
 
 function add2map(data: any, identifier: string) {
   if (data.status == 'success' && data.data.result.length > 0) {
+    // sperete loop for status
     for (let i = 0; i < data.data.result.length; i++) {
-      metrics.set(data.data.result[i].metric.id + "|" + identifier, Math.round(parseFloat(data.data.result[i].value[1])))
+      if (data.data.result[i].metric.__name__ === "pve_up") {
+        continue
+      }
+      else {
+        metrics.set(
+          data.data.result[i].metric.id + "|" + identifier,
+          Math.round(parseFloat(data.data.result[i].value[1]))
+        );
+      }
     }
   }
   else {
@@ -38,18 +47,23 @@ function add2map(data: any, identifier: string) {
   }
 }
 
+const fetchOptions = { method: "GET", headers: { "Content-Type": "application/json" } };
 async function getMetrics() {
+  metrics.clear()
+
   const [cpuResponse, ramResponse, bootdiskResponse, statusResponse] = await Promise.all([
-    fetch(cpuUrl, { method: 'GET', headers: { 'Content-Type': 'application/json' } }),
-    fetch(ramUrl, { method: 'GET', headers: { 'Content-Type': 'application/json' } }),
-    fetch(bootdiskUrl, { method: 'GET', headers: { 'Content-Type': 'application/json' } }),
-    fetch(statusUrl, { method: 'GET', headers: { 'Content-Type': 'application/json' } })
+    fetch(cpuUrl, fetchOptions),
+    fetch(ramUrl, fetchOptions),
+    fetch(bootdiskUrl, fetchOptions),
+    fetch(statusUrl, fetchOptions)
   ]);
 
-  const cpuData = await cpuResponse.json();
-  const ramData = await ramResponse.json();
-  const bootdiskData = await bootdiskResponse.json();
-  const statusData = await statusResponse.json();
+  const [cpuData, ramData, bootdiskData, statusData] = await Promise.all([
+    cpuResponse.json(),
+    ramResponse.json(),
+    bootdiskResponse.json(),
+    statusResponse.json()
+  ]);
 
   add2map(cpuData, "cpu");
   add2map(ramData, "ram");
