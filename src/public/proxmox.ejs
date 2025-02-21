@@ -22,49 +22,30 @@
       </tr>
     </thead>
     <tbody>
-      <% let groupedMetrics={}; Object.entries(metrics).forEach(([key, value])=> {
-        const [name, metricType] = key.split('|');
-        if (!groupedMetrics[name]) {
-        groupedMetrics[name] = { name, cpu: '', ram: '', bootdisk: '', status: '' }};
-
-        if (metricType === 'cpu') {
-        groupedMetrics[name].cpu = value;
-        }
-        else if (metricType === 'ram') {
-        groupedMetrics[name].ram = value;
-        }
-        else if (metricType === 'bootdisk') {
-        groupedMetrics[name].bootdisk = value;
-        }
-        else if (metricType === 'status') {
-        groupedMetrics[name].status = value;
-        }
-        });
-        %>
-        <% Object.values(groupedMetrics).forEach(({ name, cpu, ram, bootdisk, status })=> { %>
-          <tr>
-            <td>
-              <%= name %>
-            </td>
-            <td>
-              <%= cpu %>%
-            </td>
-            <td>
-              <%= ram %>%
-            </td>
-            <td>
-              <%= bootdisk %>%
-            </td>
-            <td>
-              <%= status %>
-            </td>
-            <td>
-              <button type="submit">Start</button>
-              <button type="submit">Stop</button>
-              <button type="submit">Restart</button>
-            </td>
-          </tr>
-          <% }); %>
+      <% Object.values(objgroupedMetrics).forEach(({ name, cpu, ram, bootdisk, status })=> { %>
+        <tr>
+          <td>
+            <%= name %>
+          </td>
+          <td>
+            <%= cpu %>%
+          </td>
+          <td>
+            <%= ram %>%
+          </td>
+          <td>
+            <%= bootdisk %>%
+          </td>
+          <td>
+            <%= status %>
+          </td>
+          <td>
+            <button type="submit">Start</button>
+            <button type="submit">Stop</button>
+            <button type="submit">Restart</button>
+          </td>
+        </tr>
+        <% }); %>
     </tbody>
   </table>
 </body>
