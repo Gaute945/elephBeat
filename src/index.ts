@@ -2,7 +2,7 @@ import Fastify, { FastifyRequest, FastifyReply } from 'fastify';
 import fastifyView from '@fastify/view';
 import ejs from 'ejs';
 import fastifyFormbody from '@fastify/formbody';
-import { metrics } from './collector.js';
+import metrics from './collector.js';
 
 const fastify = Fastify({
   logger: true
