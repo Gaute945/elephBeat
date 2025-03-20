@@ -38,10 +38,9 @@ async function populateMachines() {
 };
 
 // 0 = cpu, 1 = ram, 2 = bootdisk, 3 = status
-async function update() {
-  for (let i = 0; i < queries.length; i++) {
-    const result = await query(queries[i]);
-    switch (i) {
+
+/*
+switch (i) {
       case 0:
         for (let i = 0; i < result.data.result.length; i++) {
           const fetchId = result.data.result[i].metric.id;
@@ -52,37 +51,16 @@ async function update() {
           });
         }
         break;
-      case 1:
-        for (let i = 0; i < result.data.result.length; i++) {
-          const fetchId = result.data.result[i].metric.id;
-          machines.forEach(machine => {
-            if (machine.name === fetchId) {
-              machine.ram = +result.data.result[i].value[1];
-            }
-          });
-        }
-        break;
-      case 2:
-        for (let i = 0; i < result.data.result.length; i++) {
-          const fetchId = result.data.result[i].metric.id;
-          machines.forEach(machine => {
-            if (machine.name === fetchId) {
-              machine.bootdisk = +result.data.result[i].value[1];
-            }
-          });
-        }
-        break;
-      case 3:
-        for (let i = 0; i < result.data.result.length; i++) {
-          const fetchId = result.data.result[i].metric.id;
-          machines.forEach(machine => {
-            if (machine.name === fetchId) {
-              machine.status = +result.data.result[i].value[1];
-            }
-          });
-        }
-        break;
-  }
+*/
+
+async function update() {
+  for (let i = 0; i < queries.length; i++) {
+    const result = await query(queries[i]);
+    const fetchId = result.data.result[i].metric.id;
+
+    for (let i = 0; i < queries.length; i++) {
+      
+    }
 }};
 
 async function setup() {
