@@ -3,7 +3,7 @@ const ramQuery: string = '100 * (pve_memory_usage_bytes{job="proxmox_server"} / 
 const bootdiskQuery: string = '100 * (pve_disk_usage_bytes{job="proxmox_server"} / pve_disk_size_bytes{job="proxmox_server"})';
 const statusQuery: string = 'pve_up or pve_storage_up or pve_lxc_up or pve_qemu_up';
 
-const ip: string = '100.81.211.38';
+const ip: string = '192.168.10.44';
 const port: string = '9090';
 
 interface machinesType {
@@ -12,10 +12,11 @@ interface machinesType {
   ram: number;
   bootdisk: number;
   status: number;
+  [key: string]: number | string;
 }
 
 let machines: machinesType[] = [];
-let queries: string[] = [cpuQuery, ramQuery, bootdiskQuery, statusQuery];
+const queries = [cpuQuery, ramQuery, bootdiskQuery, statusQuery];
 
 async function query(query: any) {
   const response = await fetch(`http://${ip}:${port}/api/v1/query?query=${encodeURIComponent(query)}`, { method: "GET", headers: { "Content-Type": "application/json" } })
@@ -37,39 +38,57 @@ async function populateMachines() {
   }
 };
 
-// 0 = cpu, 1 = ram, 2 = bootdisk, 3 = status
-
-/*
-switch (i) {
-      case 0:
-        for (let i = 0; i < result.data.result.length; i++) {
-          const fetchId = result.data.result[i].metric.id;
-          machines.forEach(machine => {
-            if (machine.name === fetchId) {
-              machine.cpu = +result.data.result[i].value[1];
-            }
-          });
-        }
-        break;
-*/
-
-async function update() {
-  for (let i = 0; i < queries.length; i++) {
-    const result = await query(queries[i]);
+async function update(property: string) {
+  const result = await query(property);
+  for (let i = 0; i < result.data.result.length; i++) {
     const fetchId = result.data.result[i].metric.id;
+    machines.forEach(machine => {
+      if (machine.name === fetchId) {
+        switch (property) {
+          case cpuQuery:
+            machine.cpu = +result.data.result[i].value[1];
+            break;
 
-    for (let i = 0; i < queries.length; i++) {
-      
-    }
-}};
+          case ramQuery:
+            machine.ram = +result.data.result[i].value[1];
+            break;
 
-async function setup() {
-  await populateMachines();
-  await update();
+          case bootdiskQuery:
+            machine.bootdisk = +result.data.result[i].value[1];
+            break;
+
+          case statusQuery:
+            machine.status = +result.data.result[i].value[1];
+            break;
+
+          default:
+            break;
+        }
+      }
+    });
+  }
   console.log(machines);
 }
 
-setup();
+async function setup() {
+  await populateMachines();
+  for (let i = 0; i < queries.length; i++) {
+    await update(queries[i])
+  }
+}
+
+await setup();
+
+async function delay(ms: number) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+while (true) {
+  for (let i = 0; i < queries.length; i++) {
+    await update(queries[i])
+  }
+  await delay(10000);
+}
 
 //  console.log(JSON.stringify(result, null, 2))
 
