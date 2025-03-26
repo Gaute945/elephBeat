@@ -2,7 +2,7 @@ import Fastify, { FastifyRequest, FastifyReply } from 'fastify';
 import fastifyView from '@fastify/view';
 import ejs from 'ejs';
 import fastifyFormbody from '@fastify/formbody';
-import metrics from './collector.js';
+import machines from './collector.js';
 
 const fastify = Fastify({
   logger: true
@@ -25,7 +25,7 @@ fastify.get('/', async function handler(request: FastifyRequest, reply: FastifyR
 fastify.get('/proxmox', async function handler(request: FastifyRequest, reply: FastifyReply) {
   return reply.view('./src/public/proxmox.ejs', {
     title: 'Proxmox',
-    metrics: Object.fromEntries(metrics)
+    machines: machines
   });
 });
 

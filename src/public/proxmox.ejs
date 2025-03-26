@@ -1,53 +1,31 @@
-<!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>
-    <%= title %>
-  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
 </head>
-
 <body>
-  <table>
+  <table border="1">
     <thead>
       <tr>
         <th>Name</th>
-        <th>Cpu</th>
-        <th>Ram</th>
-        <th>Storage</th>
+        <th>CPU (%)</th>
+        <th>RAM (%)</th>
+        <th>Bootdisk (%)</th>
         <th>Status</th>
-        <th>Controll</th>
       </tr>
     </thead>
     <tbody>
-      <% Object.values(objgroupedMetrics).forEach(({ name, cpu, ram, bootdisk, status })=> { %>
+      <% machines.forEach(machine => { %>
         <tr>
-          <td>
-            <%= name %>
-          </td>
-          <td>
-            <%= cpu %>%
-          </td>
-          <td>
-            <%= ram %>%
-          </td>
-          <td>
-            <%= bootdisk %>%
-          </td>
-          <td>
-            <%= status %>
-          </td>
-          <td>
-            <button type="submit">Start</button>
-            <button type="submit">Stop</button>
-            <button type="submit">Restart</button>
-          </td>
+          <td><%= machine.name %></td>
+          <td><%= machine.cpu %></td>
+          <td><%= machine.ram %></td>
+          <td><%= machine.bootdisk %></td>
+          <td><%= machine.status %></td>
         </tr>
-        <% }); %>
+      <% }) %>
     </tbody>
   </table>
 </body>
-
 </html>
