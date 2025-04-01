@@ -1,0 +1,36 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <script>
+    setInterval(() => {
+      window.location.reload();
+    }, 10000);
+  </script>
+</head>
+<body>
+  <table border="1">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>CPU (%)</th>
+        <th>RAM (%)</th>
+        <th>Bootdisk (%)</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% machines.forEach(machine => { %>
+        <tr>
+          <td><%= machine.name %></td>
+          <td><%= machine.cpu %></td>
+          <td><%= machine.ram %></td>
+          <td><%= machine.bootdisk %></td>
+          <td><%= machine.status %></td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</body>
+</html>
