@@ -4,7 +4,7 @@
   "description": "<div align=\"center\">   <img width=\"600\" src=\"https://github.com/user-attachments/assets/8deca7f2-806e-489c-a7de-2085f5e1c98d\" alt=\"elephBeat Logo\">",
   "main": "index.js",
   "scripts": {
-    "build": "tsc",
+    "build": "npx tailwindcss -i ./src/index.css -o ./src/public/tailwind.css && tsc",
     "start": "npm run build && node dist/index.js"
   },
   "repository": {
@@ -22,9 +22,11 @@
   "dependencies": {
     "@fastify/formbody": "^8.0.2",
     "@fastify/view": "^10.0.2",
+    "@tailwindcss/cli": "^4.1.3",
     "axios": "^1.7.9",
     "ejs": "^3.1.10",
     "fastify": "^5.2.1",
+    "tailwindcss": "^4.1.3",
     "toml": "^3.0.0",
     "typescript": "^5.7.3"
   },
