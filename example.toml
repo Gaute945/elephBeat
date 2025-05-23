@@ -1,7 +1,8 @@
 # this is an example configuration file, you will need to 
 # create your own config.toml file
 
-[proxmox]
-ip = "127.0.0.1" # IP address of the Proxmox server
-port = 9090 # standard port for prometheus api
-fetchInterval = 10000 # 10 seconds is standard for prometheus
+[prometheus]
+ip = "127.0.0.1 # IP adress of the promethus server
+port = 9090 # Standard port for promethus api
+fetchInterval = 10000 # 10 seconds is standard for promethus
+

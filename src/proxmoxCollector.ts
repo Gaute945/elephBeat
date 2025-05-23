@@ -23,13 +23,13 @@ const queries = [
 
 async function query(query: string) {
   try {
-    const response = await fetch(`http://${config.proxmox.ip}:${config.proxmox.port}/api/v1/query?query=${encodeURIComponent(query)}`, { method: "GET", headers: { "Content-Type": "application/json" } });
+    const response = await fetch(`http://${config.prometheus.ip}:${config.prometheus.port}/api/v1/query?query=${encodeURIComponent(query)}`, { method: "GET", headers: { "Content-Type": "application/json" } });
     if (!response.ok) {
       throw new Error(`API error: ${response.status} ${response.statusText}`);
     }
     return await response.json();
   } catch (error) {
-    console.error('Error querying Proxmox API:', error);
+    console.error('Error querying prometheus API:', error);
     return null;
   }
 }
@@ -60,19 +60,19 @@ async function update(property: string) {
         if (machine.name === fetchId) {
           switch (property) {
             case queries[0]:
-              machine.cpu = +result.data.result[i].value[1];
+              machine.cpu = Math.round(+result.data.result[i].value[1]);
               break;
 
             case queries[1]:
-              machine.ram = +result.data.result[i].value[1];
+              machine.ram = Math.round(+result.data.result[i].value[1]);
               break;
 
             case queries[2]:
-              machine.bootdisk = +result.data.result[i].value[1];
+              machine.bootdisk = Math.round(+result.data.result[i].value[1]);
               break;
 
             case queries[3]:
-              machine.status = +result.data.result[i].value[1];
+              machine.status = Math.round(+result.data.result[i].value[1]);
               break;
 
             default:
@@ -94,14 +94,10 @@ async function setup() {
 
 await setup();
 
-async function delay(ms: number) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-
 setInterval(async () => {
   for (let i = 0; i < queries.length; i++) {
     await update(queries[i]);
   }
-}, config.proxmox.fetchInterval);
+}, config.prometheus.fetchInterval);
 
 export default machines;

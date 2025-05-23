@@ -2,7 +2,7 @@ import Fastify, { FastifyRequest, FastifyReply } from 'fastify';
 import fastifyView from '@fastify/view';
 import ejs from 'ejs';
 import fastifyFormbody from '@fastify/formbody';
-import machines from './collector.js';
+import machines from './proxmoxCollector.js';
 
 const fastify = Fastify({
   logger: true
@@ -18,19 +18,9 @@ fastify.register(fastifyView, {
 
 fastify.get('/', async function handler(request: FastifyRequest, reply: FastifyReply) {
   return reply.view('./src/public/home.ejs', {
-    title: 'Homepage'
-  });
-});
-
-fastify.get('/proxmox', async function handler(request: FastifyRequest, reply: FastifyReply) {
-  return reply.view('./src/public/proxmox.ejs', {
     title: 'Proxmox',
     machines: machines
   });
-});
-
-fastify.post('/proxmox', (request: FastifyRequest, reply: FastifyReply) => {
-  reply.redirect('/proxmox');
 });
 
 try {

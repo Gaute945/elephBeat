@@ -22,9 +22,6 @@
   border-style: var(--tw-border-style);
   border-width: 1px;
 }
-.underline {
-  text-decoration-line: underline;
-}
 @property --tw-border-style {
   syntax: "*";
   inherits: false;

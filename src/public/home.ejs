@@ -1,27 +1,36 @@
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="/tailwind.css">
-  <title>
-    <%= title %>
-  </title>
-
+  <title><%= title %></title>
+  <script>
+    setInterval(() => {
+      window.location.reload();
+    }, 10000);
+  </script>
 </head>
-
 <body>
-  <h2 class="text-7xl text-slate-500 font-bold text-center">
-    <%= title %>
-  </h2>
-
-  <h1>
-    h1
-  </h1>
-
-  <form action="/proxmox" method="post">
-    <button type="submit">Proxmox</button>
-  </form>
+  <table border="1">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>CPU (%)</th>
+        <th>RAM (%)</th>
+        <th>Bootdisk (%)</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% machines.forEach(machine => { %>
+        <tr>
+          <td><%= machine.name %></td>
+          <td><%= machine.cpu %></td>
+          <td><%= machine.ram %></td>
+          <td><%= machine.bootdisk %></td>
+          <td><%= machine.status %></td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
 </body>
-
 </html>
